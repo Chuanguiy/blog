@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="posts">
+    {% if error %}
+        <h2 class="post-title">没有相关内容</h2>
+    {% else %}
+    {% for post in post_list %}
+        <section class="post">
+            <header class="post-header">
+                    <p class="post-meta">
+                        <a class="post-author" href="#">{{ post.date_time|date:"Y /m /d" }}</a>&nbsp&nbsp
+                        <a class="post-author" href="{% url 'detail' id_blog=post.id %}">{{ post.title }}</a>&nbsp&nbsp
+                        <a class="post-category post-category-js" href="{% url 'classify' tag=post.category %}">
+                            {{ post.category }}</a>
+                    </p>
+            </header>
+        </section>
+    {% endfor %}
+    <div>
+    {% if post_list.object_list and post_list.paginator.num_pages > 1 %}
+      <div>
+      <ul class="pager">
+      {% if post_list.has_previous %}
+        <li><a href="?s={{ s }}&page={{ post_list.previous_page_number }}">上一页</a></li>
+      {% endif %}
+
+      {% if post_list.has_next %}
+        <li><a href="?s={{ s }}&page={{ post_list.next_page_number }}">下一页</a></li>
+      {% endif %}
+      </ul>
+      </div>
+    {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
